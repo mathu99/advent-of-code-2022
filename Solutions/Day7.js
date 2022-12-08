@@ -17,7 +17,9 @@ fs.readFile('./Input/Day7.txt', (err, data) => {
         }],
     }, workingObject = root;
 
-    workingTest = null;
+    let totalScore = 0, minBound = 0, currentSelection = 70000000;
+
+    let workingTest = null;
 
     lines.forEach(line => {
         let parts = line.split(' ');
@@ -42,20 +44,16 @@ fs.readFile('./Input/Day7.txt', (err, data) => {
     });
 
     traverseTree(root);
+    console.log(JSON.stringify(root));
     console.log('Part 1: ', totalScore);
+
     minBound = 30000000 - (70000000 - root.size);
     part2(root);
-    console.log('Space to clear = ', minBound);
     console.log('Part 2: ', currentSelection);
 });
 
-/* Find all directories <= 100000 */
-totalScore = 0, minBound = 0, currentSelection = 70000000, directories = [];
-
 part2 = (node) => {
-    if (!node.children) {
-        return;
-    }
+    if (!node.children) return;
     else {
         for (let i = 0; i < node.children.length; i++) {
             part2(node.children[i]);
@@ -63,7 +61,6 @@ part2 = (node) => {
         if (node.size < currentSelection && node.size > minBound) {    /* Part 2 */
             currentSelection = node.size;
         }
-        directories.push(node.size);
         return;
     }
 }
@@ -106,4 +103,3 @@ findParentNode = (node, label, parentLabel) => {
         }
     }
 }
-
